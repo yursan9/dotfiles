@@ -14,6 +14,9 @@ if dein#load_state('~/.cache/dein')
         call dein#add('roxma/vim-hug-neovim-rpc')
     endif
 
+    call dein#add('Shougo/neco-syntax')
+    call dein#add('Shougo/neco-vim')
+
     call dein#add('Shougo/denite.nvim')
     call dein#add('airblade/vim-gitgutter')
     call dein#add('neomake/neomake')
