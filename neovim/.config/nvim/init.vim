@@ -76,15 +76,14 @@ set statusline=%3l
 set statusline+=\ ❰
 set statusline+=\ %f
 set statusline+=\ ❱
-set statusline+=\ %<%{getcwd()}
 "" Center
 set statusline+=%=
+set statusline+=\ %<%{getcwd()}
 "" Right Side
 set statusline+=%=
 set statusline+=%P\ %([%M%R%H%W]%)%q
 
 " Distraction Mode
-nnoremap <leader>ze :Goyo 
-nnoremap <leader>zq :Goyo!
+nnoremap <leader>z :Goyo<cr>
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
