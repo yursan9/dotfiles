@@ -13,6 +13,8 @@ function fish_prompt
     # Git Prompt Configuration
     set -g __fish_git_prompt_showcolorhints true
     set -g __fish_git_prompt_showdirtystate true
+    set -g __fish_git_prompt_showstashstate true
+    set -g __fish_git_prompt_showupstream auto
 
     set -l arrow_color "$magenta"
     if test $__last_command_exit_status != 0
