@@ -78,7 +78,7 @@ set statusline+=\ %f
 set statusline+=\ ❱
 "" Center
 set statusline+=%=
-set statusline+=\ %<%{getcwd()}
+set statusline+=\ %<%{substitute(getcwd(),$HOME,'~','')}
 "" Right Side
 set statusline+=%=
 set statusline+=%P\ %([%M%R%H%W]%)%q
