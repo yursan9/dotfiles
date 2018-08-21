@@ -36,6 +36,8 @@ syntax enable
 
 " View Configuration
 set relativenumber
+set splitbelow
+set splitright
 
 " Colorscheme configuration
 set termguicolors
