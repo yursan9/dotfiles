@@ -1,35 +1,72 @@
 function fish_prompt
-    set -l __last_command_exit_status $status
+    set -l last_command_exit_status $status
 
     # Color Configuration
-    set -l cyan (set_color -o cyan)
-    set -l yellow (set_color -o yellow)
-    set -l red (set_color -o red)
-    set -l green (set_color -o green)
-    set -l blue (set_color -o blue)
-    set -l magenta (set_color -o magenta)
-    set -l normal (set_color normal)
+    set -l dir_color (set_color $fish_color_cwd)
+    set -l color_normal (set_color $fish_color_normal)
+    set -l git_color (set_color $fish_color_normal)
+    set -l prompt_color (set_color $fish_color_command)
+    set -l git_dirty_color (set_color brred)
+    set -l git_staged_color (set_color green)
 
-    # Git Prompt Configuration
-    set -g __fish_git_prompt_showcolorhints true
-    set -g __fish_git_prompt_showdirtystate true
-    set -g __fish_git_prompt_showstashstate true
-    set -g __fish_git_prompt_showupstream auto
-
-    set -l arrow_color "$magenta"
-    if test $__last_command_exit_status != 0
-        set arrow_color "$red"
+    if test $last_command_exit_status != 0
+    	set dir_color (set_color $fish_color_error)
+    	set color_normal (set_color $fish_color_error)
+    	set git_color (set_color $fish_color_error)
+    	set prompt_color (set_color $fish_color_error)
     end
 
-    set -l arrow "$arrow_color❯"
-    if test "$USER" = 'root'
-        set arrow "$arrow_color# "
-    end
-
+    # Prompt Configuration
     set -g fish_prompt_pwd_dir_length 0
-    set -l cwd $cyan(prompt_pwd)
+    set -l dir_name (prompt_pwd)
 
-    echo ' '
-    echo -s $cwd (__fish_git_prompt " %s")
-    echo -n -s $arrow $normal ' '
+    set -l git_symbol "\$"
+    set -l branch_name
+
+    if git_is_repo
+	set dir_name (basename $dir_name)' '
+	set branch_name (git_branch_name)
+
+	if git_is_dirty
+		set prompt_color $git_dirty_color
+	end
+
+	if git_is_staged
+		set prompt_color $git_staged_color
+	end
+	
+	# Don't display the branch name if in master, show otherwise
+	if test $branch_name = "master"
+		set branch_name
+
+		if git_is_stashed
+			set branch_name "{} "
+    			set branch_name "$prompt_color$branch_name"
+		end
+	else
+		set -l left_par "("
+		set -l right_par ")"
+		
+		if git_is_stashed
+			set left_par "{"
+			set right_par "}"
+		end
+
+		set branch_name $git_color$branch_name
+		set left_par $prompt_color$left_par
+		set right_par $prompt_color$right_par
+		set branch_name "$left_par$branch_name$right_par "
+	end
+
+    else
+	set git_symbol
+    end
+
+    # Colorize prompt
+    set dir_name $dir_color$dir_name
+    set git_symbol $prompt_color$git_symbol
+
+    # Display the prompt
+    echo -sn $dir_name $branch_name $git_symbol
+    echo -sn $color_normal ' '
 end
