@@ -17,10 +17,12 @@ if dein#load_state('~/.cache/dein')
     call dein#add('Shougo/neosnippet.vim')
     call dein#add('Shougo/neosnippet-snippets')
 
+	call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neco-syntax')
     call dein#add('Shougo/neco-vim')
 
     call dein#add('Shougo/denite.nvim')
+    call dein#add('Shougo/defx.nvim')
     call dein#add('airblade/vim-gitgutter')
     call dein#add('neomake/neomake')
 
