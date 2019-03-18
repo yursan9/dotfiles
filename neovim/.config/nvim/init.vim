@@ -31,6 +31,7 @@ if dein#load_state('~/.cache/dein')
 
     call dein#add('sheerun/vim-polyglot')
     call dein#add('joshdick/onedark.vim')
+	call dein#add('dylanaraps/wal.vim')
 
  call dein#end()
  call dein#save_state()
@@ -51,10 +52,9 @@ set tabstop=4
 set shiftwidth=4	
 
 " Colorscheme configuration
-set termguicolors
+"set termguicolors
 let g:onedark_termcolors = 16
 let g:onedark_terminal_italics = 1
-colorscheme onedark
 
 " Better window navigation
 tnoremap <Esc> <C-\><C-n>

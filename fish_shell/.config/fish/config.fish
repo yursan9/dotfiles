@@ -1,17 +1,25 @@
-set fish_color_normal normal
-set fish_color_command brblue --bold
-set fish_color_quote yellow
-set fish_color_redirection bryellow
-set fish_color_end green --bold
-set fish_color_error red
-set fish_color_param normal
-set fish_color_comment brblack --italics
-set fish_color_match cyan
-set fish_color_search_match brgreen
-set fish_color_operator green
-set fish_color_escape brcyan 
-set fish_color_cwd magenta
-set fish_color_autosuggestion brblue
-set fish_color_user brmagenta
-set fish_color_host brgreen
-set fish_color_cancel brred
+# Environment Variabel
+
+## Path
+set -x GOPATH $HOME/.go
+set -x PATH $GOPATH/bin $HOME/.local/bin $PATH
+
+## XDG
+set -x XDG_CONFIG_HOME "$HOME/.config"
+set -x XDG_DATA_HOME "$HOME/.local/share"
+set -x XDG_CACHE_HOME "$HOME/.cache"
+
+## Editor
+set -x EDITOR neovim
+
+# Kitty Completion
+kitty + complete setup fish | source
+
+# Alias
+alias uppack="/usr/share/ypkg/yupdate.py"
+alias fetchpack="$HOME/Repository/common/Scripts/yauto.py"
+alias yt-music="youtube-dl -f bestaudio[acodec=opus] -x --audio-format opus"
+
+# Colors
+source ~/.config/fish/color.fish
+
