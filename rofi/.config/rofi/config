@@ -1,0 +1,6 @@
+# Dark theme
+rofi.theme: ~/.cache/wal/colors-rofi-dark.rasi
+
+rofi.run-command: fish -c '{cmd}'
+rofi.run-list-command: 'fish -c functions'
+rofi.modi: window,run,ssh
