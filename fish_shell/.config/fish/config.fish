@@ -10,10 +10,16 @@ set -x XDG_DATA_HOME "$HOME/.local/share"
 set -x XDG_CACHE_HOME "$HOME/.cache"
 
 ## Editor
-set -x EDITOR neovim
+if which neovim 2> /dev/null
+    set -x EDITOR neovim
+else
+    set -x EDITOR micro
+end
 
 # Kitty Completion
-kitty + complete setup fish | source
+if which kitty 2> /dev/null
+    kitty + complete setup fish | source
+end
 
 # Alias
 alias uppack="/usr/share/ypkg/yupdate.py"
