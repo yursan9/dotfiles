@@ -2,10 +2,11 @@ function fish_prompt
     set -l last_command_exit_status $status
 
     # Color Configuration
-    set -l dir_color (set_color $fish_color_cwd)
+    set -l dir_color (set_color $fish_color_command)
     set -l color_normal (set_color $fish_color_normal)
     set -l git_color (set_color $fish_color_normal)
     set -l prompt_color (set_color $fish_color_command)
+    set -l root_color (set_color red)
     set -l git_dirty_color (set_color brred)
     set -l git_staged_color (set_color green)
 
@@ -20,20 +21,25 @@ function fish_prompt
     # Prompt Configuration
     set -g fish_prompt_pwd_dir_length 0
     set -l dir_name (prompt_pwd)
+    set dir_name $dir_color$dir_name
+
+    set -l user
+    if test "$USER" = "root"
+        set user $root_color\#' '$color_normal
+    end
 
     set -l git_symbol "\$"
+    set git_symbol $prompt_color$git_symbol
     set -l branch_name
 
     if git_is_repo
-    	set git_dir (git_dir_name)
+    	set git_dir (dirname (git_dir_name))
     	set branch_name (git_branch_name)
-    	set dir_name $dir_name' '
-    	
-    	if test $git_dir != $PWD
-			set dir_name (realpath --relative-to=$git_dir $PWD)
-			set dir_name (string replace $HOME '~' $dir_name)' '
-		end
-		
+
+		set dir_name (realpath --relative-base=$git_dir $PWD)
+		set dir_name (string replace $HOME '~' $dir_name)' '
+		set dir_name $color_normal$dir_name
+
 		if git_is_dirty
 			set prompt_color $git_dirty_color
 		end
@@ -41,7 +47,7 @@ function fish_prompt
 		if git_is_staged
 			set prompt_color $git_staged_color
 		end
-		
+
 		# Don't display the branch name if in master, show otherwise
 		if test $branch_name = "master"
 			set branch_name
@@ -53,7 +59,7 @@ function fish_prompt
 		else
 			set -l left_par "("
 			set -l right_par ")"
-			
+
 			if git_is_stashed
 				set left_par "{"
 				set right_par "}"
@@ -70,10 +76,9 @@ function fish_prompt
     end
 
     # Colorize prompt
-    set dir_name $dir_color$dir_name
     set git_symbol $prompt_color$git_symbol
 
     # Display the prompt
-    echo -sn $dir_name $branch_name $git_symbol
+    echo -sn $user $dir_name $branch_name $git_symbol
     echo -sn $color_normal ' '
 end
